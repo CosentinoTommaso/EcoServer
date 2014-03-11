@@ -28,29 +28,17 @@ class EcoThread extends Thread{
             PrintWriter out=new PrintWriter(new OutputStreamWriter (s.getOutputStream()),true);
 
             while(true){
-                switch(in.readLine()){
-                    case "fine":
+                if(in.readLine() == "fine" || in.readLine() == "Fine" || in.readLine() == "FINE"){
                         this.interrupt();
-                        break;
-                    case "Fine":
-                        this.interrupt();
-                        break;
-                    case "FINE":
-                        this.interrupt();
-                        break;
-                    case "maiuscole: on":
+                }
+                if(in.readLine() == "maiuscole: on")
                         maiuscole = true;
-                        break;
-                    case "maiuscole: off":
+                if(in.readLine() == "maiuscole: off")
                         maiuscole = false;
-                        break;
-                    default:
-                        if(maiuscole == false){
-                            out.println(invio);
-                        }else if(maiuscole == true){
-                            out.println(invio.toUpperCase());
-                        }
-                        break;
+                if(maiuscole == false){
+                    out.println(invio);
+                }else if(maiuscole == true){
+                    out.println(invio.toUpperCase());
                 }
             }
         }catch(IOException e){}
