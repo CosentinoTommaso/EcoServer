@@ -27,20 +27,24 @@ class EcoThread extends Thread{
             BufferedReader in=new BufferedReader(new InputStreamReader(s.getInputStream()));
             PrintWriter out=new PrintWriter(new OutputStreamWriter (s.getOutputStream()),true);
 
-            while(true){
-                if(in.readLine() == "fine" || in.readLine() == "Fine" || in.readLine() == "FINE"){
-                        this.interrupt();
-                }
-                if(in.readLine() == "maiuscole: on")
-                        maiuscole = true;
-                if(in.readLine() == "maiuscole: off")
-                        maiuscole = false;
-                if(maiuscole == false){
+            while(in.readLine() != "fine"){
+                if(in.readLine().equals("maiuscole: on")){
+                    maiuscole = true;
+                    out.println("maiuscole: on");
+                }else if(in.readLine().equals("maiuscole: off")){
+                    maiuscole = false;
+                    out.println("maiuscole: off");
+                }else if(maiuscole == false){
+                    invio = in.readLine();
                     out.println(invio);
+                    out.flush();
                 }else if(maiuscole == true){
+                    invio = in.readLine();
                     out.println(invio.toUpperCase());
+                    out.flush();
                 }
             }
+            s.close();
         }catch(IOException e){}
     }
 }
