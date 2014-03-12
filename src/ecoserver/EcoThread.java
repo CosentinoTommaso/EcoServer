@@ -32,6 +32,7 @@ class EcoThread extends Thread{
                 switch(frase){
                     case "fine":
                         out.println("fine");
+                        System.out.println("disconnesso");
                         s.close();
                         break;
                     case "maiuscole: on":
