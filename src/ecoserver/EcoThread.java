@@ -17,7 +17,7 @@ import java.net.Socket;
  */
 class EcoThread extends Thread{
     Socket s;
-    String controllo, invio;
+    String frase, invio, host;
     boolean maiuscole = false;
     public EcoThread(Socket s){
         this.s=s;
@@ -27,24 +27,31 @@ class EcoThread extends Thread{
             BufferedReader in=new BufferedReader(new InputStreamReader(s.getInputStream()));
             PrintWriter out=new PrintWriter(new OutputStreamWriter (s.getOutputStream()),true);
 
-            while(in.readLine() != "fine"){
-                if(in.readLine().equals("maiuscole: on")){
-                    maiuscole = true;
-                    out.println("maiuscole: on");
-                }else if(in.readLine().equals("maiuscole: off")){
-                    maiuscole = false;
-                    out.println("maiuscole: off");
-                }else if(maiuscole == false){
-                    invio = in.readLine();
-                    out.println(invio);
-                    out.flush();
-                }else if(maiuscole == true){
-                    invio = in.readLine();
-                    out.println(invio.toUpperCase());
-                    out.flush();
+            while(true){
+                frase = in.readLine();
+                switch(frase){
+                    case "fine":
+                        out.println("fine");
+                        s.close();
+                        break;
+                    case "maiuscole: on":
+                        maiuscole = true;
+                        System.out.println("maiuscole: on");
+                        out.println();
+                        break;
+                    case "maiuscole: off":
+                        maiuscole = false;
+                        System.out.println("maiuscole: off");
+                        out.println();
+                        break;
+                    default:
+                        if(maiuscole == true){
+                            frase = frase.toUpperCase();
+                        }
+                        out.println(frase);
+                        break;
                 }
             }
-            s.close();
         }catch(IOException e){}
     }
 }
